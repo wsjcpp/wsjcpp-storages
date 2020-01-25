@@ -1,3 +1,6 @@
+wsjcpp-storages
+tmp/*
+
 # Prerequisites
 *.d
 
