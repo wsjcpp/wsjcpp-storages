@@ -337,7 +337,7 @@ class FabricWsjcppStorage : IFabricWsjcppStorage {
 
 // ---------------------------------------------------------------------
 // RegistryStorage
-#define REGISTRY_STORAGE( classname ) \
+#define REGISTRY_WSJCPP_STORAGE( classname ) \
     static FabricWsjcppStorage<classname> * pRegistryFabric ## classname = new FabricWsjcppStorage<classname>(); \
 
 // ---------------------------------------------------------------------
@@ -393,7 +393,7 @@ class WsjcppStorageUpdates {
 // ---------------------------------------------------------------------
 
 // RegistryCmdHandler
-#define REGISTRY_STORAGE_UPDATE( classname ) \
+#define REGISTRY_WSJCPP_STORAGE_UPDATE( classname ) \
     static classname * pRegistry ## classname = new classname();
 
 
