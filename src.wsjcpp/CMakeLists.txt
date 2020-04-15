@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 add_definitions(-DWSJCPP_VERSION="v0.0.1")
-add_definitions(-DWSJCPP_NAME="wsjcpp-levenshtein")
+add_definitions(-DWSJCPP_NAME="wsjcpp-storages")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(MACOSX TRUE)
@@ -14,10 +14,15 @@ set (WSJCPP_LIBRARIES "")
 set (WSJCPP_INCLUDE_DIRS "")
 set (WSJCPP_SOURCES "")
 
-# wsjcpp/wsjcpp-core:v0.0.2
-list (APPEND WSJCPP_INCLUDE_DIRS "./src.wsjcpp/wsjcpp_wsjcpp_core/")
-list (APPEND WSJCPP_SOURCES "./src.wsjcpp/wsjcpp_wsjcpp_core/wsjcpp_core.cpp")
-list (APPEND WSJCPP_SOURCES "./src.wsjcpp/wsjcpp_wsjcpp_core/wsjcpp_core.h")
+find_package(Threads REQUIRED)
+list (APPEND WSJCPP_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
+
+# wsjcpp-core:v0.1.4
+list (APPEND WSJCPP_INCLUDE_DIRS "./src.wsjcpp/wsjcpp_core/")
+list (APPEND WSJCPP_SOURCES "./src.wsjcpp/wsjcpp_core/wsjcpp_core.cpp")
+list (APPEND WSJCPP_SOURCES "./src.wsjcpp/wsjcpp_core/wsjcpp_core.h")
+list (APPEND WSJCPP_SOURCES "./src.wsjcpp/wsjcpp_core/wsjcpp_resources_manager.h")
+list (APPEND WSJCPP_SOURCES "./src.wsjcpp/wsjcpp_core/wsjcpp_resources_manager.cpp")
 
 # required-libraries
 list (APPEND WSJCPP_LIBRARIES "-lpthread")

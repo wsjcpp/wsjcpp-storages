@@ -9,15 +9,15 @@ int main(int argc, const char* argv[]) {
     std::string TAG = "MAIN";
     std::string appName = std::string(WSJCPP_NAME);
     std::string appVersion = std::string(WSJCPP_VERSION);
-    if (!WSJCppCore::dirExists(".wsjcpp")) {
-        WSJCppCore::makeDir(".wsjcpp");
+    if (!WsjcppCore::dirExists(".wsjcpp")) {
+        WsjcppCore::makeDir(".wsjcpp");
     }
     std::string appLogPath = ".wsjcpp/logs";
-    if (!WSJCppCore::dirExists(appLogPath)) {
-        WSJCppCore::makeDir(appLogPath);
+    if (!WsjcppCore::dirExists(appLogPath)) {
+        WsjcppCore::makeDir(appLogPath);
     }
-    WSJCppLog::setPrefixLogFile("wsjcpp");
-    WSJCppLog::setLogDirectory(".wsjcpp/logs");
+    WsjcppLog::setPrefixLogFile("wsjcpp");
+    WsjcppLog::setLogDirectory(".wsjcpp/logs");
 
     std::vector<std::string> vArgs;
 
@@ -32,7 +32,7 @@ int main(int argc, const char* argv[]) {
 
     std::string s1 = vArgs[1];
     std::string s2 = vArgs[2];
-    int nDistance = WSJCppLevenshtein::distance(s1,s2);
+    int nDistance = WsjcppLevenshtein::distance(s1,s2);
     std::cout << "" << nDistance << std::endl;*/
     return 0;
 }

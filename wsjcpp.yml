@@ -15,11 +15,11 @@ required-libraries:
   - pthread
 
 dependencies:
-  - name: "wsjcpp/wsjcpp-core"
-    version: "v0.0.3"
+  - name: "wsjcpp-core"
+    version: "v0.1.4"
     url: "https://github.com/wsjcpp/wsjcpp-core:master"
     origin: "https://github.com/"
-    installation-dir: "./src.wsjcpp/wsjcpp_wsjcpp_core"
+    installation-dir: "./src.wsjcpp/wsjcpp_core"
 
 repositories:
   - type: main
@@ -38,3 +38,8 @@ distribution:
     target-file: "wsjcpp_storages.h"
     type: "source-code"
     sha1: "75922bcfbbd33484b887650f9f44a06bdb35a712"
+
+unit-tests:
+  cases:
+    - name: StorageSortUpdates
+      description: StorageSortUpdates
