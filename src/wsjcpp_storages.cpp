@@ -212,7 +212,7 @@ std::string WsjcppStorageChanges::getTableName() const {
 // ---------------------------------------------------------------------
 
 WsjcppStorageChangesType WsjcppStorageChanges::getType() const {
-    return WsjcppStorageChangesType::NOPE;
+    return WSJCPP_STORAGE_CHANGES_TYPE_NOPE;
 }
 
 // ---------------------------------------------------------------------
@@ -248,7 +248,7 @@ WsjcppStorageCreateTable::WsjcppStorageCreateTable(const std::string &sTableName
 // ---------------------------------------------------------------------
 
 WsjcppStorageChangesType WsjcppStorageCreateTable::getType() const {
-    return WsjcppStorageChangesType::CREATE_TABLE;
+    return WSJCPP_STORAGE_CHANGES_TYPE_CREATE_TABLE;
 };
 
 // ---------------------------------------------------------------------
@@ -303,7 +303,7 @@ WsjcppStorageModifyTable::WsjcppStorageModifyTable(const std::string &sTableName
 // ---------------------------------------------------------------------
 
 WsjcppStorageChangesType WsjcppStorageModifyTable::getType() const {
-    return WsjcppStorageChangesType::MODIFY_TABLE;
+    return WSJCPP_STORAGE_CHANGES_TYPE_MODIFY_TABLE;
 };
 
 // ---------------------------------------------------------------------
@@ -417,7 +417,7 @@ WsjcppStorageDropTable::WsjcppStorageDropTable(const std::string &sTableName)
 // ---------------------------------------------------------------------
 
 WsjcppStorageChangesType WsjcppStorageDropTable::getType() const {
-    return WsjcppStorageChangesType::DROP_TABLE;
+    return WSJCPP_STORAGE_CHANGES_TYPE_DROP_TABLE;
 };
 
 // ---------------------------------------------------------------------
@@ -512,7 +512,7 @@ WsjcppStorageInsert::WsjcppStorageInsert(const std::string &sTableName)
 // ---------------------------------------------------------------------
 
 WsjcppStorageChangesType WsjcppStorageInsert::getType() const {
-    return WsjcppStorageChangesType::INSERT_ROW;
+    return WSJCPP_STORAGE_CHANGES_TYPE_INSERT_ROW;
 };
 
 // ---------------------------------------------------------------------
@@ -540,7 +540,7 @@ void WsjcppStorageInsert::bindValue(const std::string &sColumnName, const std::s
         WsjcppLog::throw_err(TAG, "Skip. Already defined " + m_sTableName + "." + sColumnName);
         return;
     }
-    WsjcppStorageColumnValue val(sColumnName, WsjcppStorageColumnType::STRING);
+    WsjcppStorageColumnValue val(sColumnName, WSJCPP_STORAGE_COLUMN_TYPE_STRING);
     val.setValue(sValue);
     m_vValues.push_back(val);
 }
@@ -552,7 +552,7 @@ void WsjcppStorageInsert::bindValue(const std::string &sColumnName, int nValue) 
         WsjcppLog::throw_err(TAG, "Skip. Already defined " + m_sTableName + "." + sColumnName);
         return;
     }
-    WsjcppStorageColumnValue val(sColumnName, WsjcppStorageColumnType::NUMBER);
+    WsjcppStorageColumnValue val(sColumnName, WSJCPP_STORAGE_COLUMN_TYPE_NUMBER);
     val.setValue(nValue);
     m_vValues.push_back(val);
 }
@@ -564,7 +564,7 @@ void WsjcppStorageInsert::bindValue(const std::string &sColumnName, double nValu
         WsjcppLog::throw_err(TAG, "Skip. Already defined " + m_sTableName + "." + sColumnName);
         return;
     }
-    WsjcppStorageColumnValue val(sColumnName, WsjcppStorageColumnType::DOUBLE_NUMBER);
+    WsjcppStorageColumnValue val(sColumnName, WSJCPP_STORAGE_COLUMN_TYPE_DOUBLE_NUMBER);
     val.setValue(nValue);
     m_vValues.push_back(val);
 }
@@ -604,14 +604,14 @@ bool WsjcppStorageInsert::isValid(const WsjcppStorageTable &storageTable) const 
         for (int y = 0; y < vColumns.size(); y++) {
             WsjcppStorageColumnDef st = vColumns[y];
             if (st.columnName() == val.getColumnName()) {
-                if (val.getColumnType() == WsjcppStorageColumnType::STRING
+                if (val.getColumnType() == WSJCPP_STORAGE_COLUMN_TYPE_STRING
                     && (st.columnType() == "string" || st.columnType() == "datetime" || st.columnType() == "text")) {
                     bFound = true;
                     break;
-                } else if (val.getColumnType() == WsjcppStorageColumnType::NUMBER && st.columnType() == "number") {
+                } else if (val.getColumnType() == WSJCPP_STORAGE_COLUMN_TYPE_NUMBER && st.columnType() == "number") {
                     bFound = true;
                     break;
-                } else if (val.getColumnType() == WsjcppStorageColumnType::DOUBLE_NUMBER && st.columnType() == "doubleNumber") {
+                } else if (val.getColumnType() == WSJCPP_STORAGE_COLUMN_TYPE_DOUBLE_NUMBER && st.columnType() == "doubleNumber") {
                     bFound = true;
                     break;
                 } else {
@@ -800,7 +800,7 @@ bool WsjcppStorage::addStorageChanges(WsjcppStorageChanges &storageChanges) {
     std::string sTableName = storageChanges.getTableName();
     std::map<std::string, WsjcppStorageTable>::iterator it = m_mapTables.find(sTableName);
 
-    if (storageChanges.getType() == WsjcppStorageChangesType::CREATE_TABLE) {
+    if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_CREATE_TABLE) {
         if (it != m_mapTables.end()) {
             WsjcppLog::err(TAG, "Table '" + sTableName + "' already defined");
             WsjcppLog::warn(TAG, "TODO need drop table");
@@ -808,17 +808,17 @@ bool WsjcppStorage::addStorageChanges(WsjcppStorageChanges &storageChanges) {
         }
         WsjcppStorageTable tbl((WsjcppStorageCreateTable &)storageChanges);
         m_mapTables.insert(std::pair<std::string,WsjcppStorageTable>(sTableName,tbl) );
-    } else if (storageChanges.getType() == WsjcppStorageChangesType::DROP_TABLE) {
+    } else if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_DROP_TABLE) {
         if (it == m_mapTables.end()) {
             WsjcppLog::throw_err(TAG, "Not found table '" + sTableName + "'");
         }
         m_mapTables.erase(sTableName);
-    } else if (storageChanges.getType() == WsjcppStorageChangesType::MODIFY_TABLE) {
+    } else if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_MODIFY_TABLE) {
         if (it == m_mapTables.end()) {
             WsjcppLog::throw_err(TAG, "Not found table '" + sTableName + "'");
         }
         it->second.mergeWith((WsjcppStorageModifyTable &)storageChanges);
-    } else if (storageChanges.getType() == WsjcppStorageChangesType::INSERT_ROW) {
+    } else if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_INSERT_ROW) {
         // skip
     } else {
         WsjcppLog::throw_err(TAG, "addStorageChanges, Unknown operation with table");
@@ -832,16 +832,16 @@ bool WsjcppStorage::executeStorageChanges(WsjcppStorageConnection *pConn, Wsjcpp
     std::string sTableName = storageChanges.getTableName();
     std::vector<std::string> vQueries;
 
-    if (storageChanges.getType() == WsjcppStorageChangesType::CREATE_TABLE) {
+    if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_CREATE_TABLE) {
         WsjcppStorageCreateTable createTable = (WsjcppStorageCreateTable &)storageChanges;
         vQueries = this->prepareSqlQueries(createTable);
-    } else if (storageChanges.getType() == WsjcppStorageChangesType::MODIFY_TABLE) {
+    } else if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_MODIFY_TABLE) {
         WsjcppStorageModifyTable modifyTable = (WsjcppStorageModifyTable &)storageChanges;
         vQueries = this->prepareSqlQueries(modifyTable);
-    } else if (storageChanges.getType() == WsjcppStorageChangesType::DROP_TABLE) {
+    } else if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_DROP_TABLE) {
         WsjcppStorageDropTable dropTable = (WsjcppStorageDropTable &)storageChanges;
         vQueries = this->prepareSqlQueries(dropTable);
-    } else if (storageChanges.getType() == WsjcppStorageChangesType::INSERT_ROW) {
+    } else if (storageChanges.getType() == WSJCPP_STORAGE_CHANGES_TYPE_INSERT_ROW) {
         WsjcppStorageInsert insRow = (WsjcppStorageInsert &)storageChanges;
         WsjcppStorageTable tableDef = getTableDef(insRow.getTableName());
         if (!insRow.isValid(tableDef)) {
@@ -1294,8 +1294,8 @@ void WsjcppStorageUpdates::applyAllStorageChanges(WsjcppStorage *pStorage, Wsjcp
     std::vector<WsjcppStorageChanges *> vStorageChanges = pUpdate->getChanges();
     for (int i = 0; i < vStorageChanges.size(); i++) {
         WsjcppStorageChanges *pChanges = vStorageChanges[i];
-        if (pChanges->getType() == WsjcppStorageChangesType::NOPE) {
-            WsjcppLog::throw_err(TAG, "Not allowed use a WsjcppStorageChangesType::NOPE");
+        if (pChanges->getType() == WSJCPP_STORAGE_CHANGES_TYPE_NOPE) {
+            WsjcppLog::throw_err(TAG, "Not allowed use a WSJCPP_STORAGE_CHANGES_TYPE_NOPE");
         }
 
         if (!pStorage->addStorageChanges(*pChanges)) {
@@ -1314,8 +1314,8 @@ void WsjcppStorageUpdates::executeAllStorageChanges(WsjcppStorage *pStorage, Wsj
     std::vector<WsjcppStorageChanges *> vStorageChanges = pUpdate->getChanges();
     for (int i = 0; i < vStorageChanges.size(); i++) {
         WsjcppStorageChanges *pChanges = vStorageChanges[i];
-        if (pChanges->getType() == WsjcppStorageChangesType::NOPE) {
-            WsjcppLog::throw_err(TAG, "Not allowed use a WsjcppStorageChangesType::NOPE");
+        if (pChanges->getType() == WSJCPP_STORAGE_CHANGES_TYPE_NOPE) {
+            WsjcppLog::throw_err(TAG, "Not allowed use a WSJCPP_STORAGE_CHANGES_TYPE_NOPE");
         }
         if (!pStorage->executeStorageChanges(pConn, *pChanges)) {
             WsjcppLog::throw_err(TAG, "Problem with table '" + pChanges->getTableName() + "' in version " + pUpdate->version());

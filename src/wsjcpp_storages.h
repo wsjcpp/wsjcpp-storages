@@ -13,10 +13,10 @@
 // ---------------------------------------------------------------------
 
 enum WsjcppStorageColumnType {
-    DATETIME,
-    STRING,
-    NUMBER,
-    DOUBLE_NUMBER
+    WSJCPP_STORAGE_COLUMN_TYPE_DATETIME,
+    WSJCPP_STORAGE_COLUMN_TYPE_STRING,
+    WSJCPP_STORAGE_COLUMN_TYPE_NUMBER,
+    WSJCPP_STORAGE_COLUMN_TYPE_DOUBLE_NUMBER
 };
 
 // TODO cast to string
@@ -78,14 +78,14 @@ class WsjcppStorageColumnDefIndex {
 // ---------------------------------------------------------------------
 
 enum WsjcppStorageChangesType {
-    NOPE,
-    DROP_TABLE,
-    MODIFY_TABLE,
-    CREATE_TABLE,
-    INSERT_ROW,
-    DELETE_ROW,
-    UPDATE_ROW,
-    SELECT_ROWS
+    WSJCPP_STORAGE_CHANGES_TYPE_NOPE,
+    WSJCPP_STORAGE_CHANGES_TYPE_DROP_TABLE,
+    WSJCPP_STORAGE_CHANGES_TYPE_MODIFY_TABLE,
+    WSJCPP_STORAGE_CHANGES_TYPE_CREATE_TABLE,
+    WSJCPP_STORAGE_CHANGES_TYPE_INSERT_ROW,
+    WSJCPP_STORAGE_CHANGES_TYPE_DELETE_ROW,
+    WSJCPP_STORAGE_CHANGES_TYPE_UPDATE_ROW,
+    WSJCPP_STORAGE_CHANGES_TYPE_SELECT_ROWS
 };
 
 // ---------------------------------------------------------------------
